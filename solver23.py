@@ -33,31 +33,45 @@ def solve3(a, b, c, d):
     if a == 0:
         return solve2(b, c, d)
     else:
-        Q = (a * a - 3 * b) / 9
-        R = (2 * a * a * a - 9 * a * b + 27 * c) / 54
-        S = Q * Q * Q - R * R
-        if S > 0:
-            phi = 1 / 3 * math.acos(R / (pow(Q, 1 / 3)))
-            x1 = -2 * pow(Q, 1 / 2) * math.cos(phi) - (a / 3)
-            x2 = -2 * pow(Q, 1 / 2) * math.cos(phi + 2 * math.pi / 3) - (a / 3)
-            x3 = -2 * pow(Q, 1 / 2) * math.cos(phi - 2 * math.pi / 3) - (a / 3)
+        a_ = b / a
+        b_ = c / a
+        c_ = d / a
+        Q = (3 * b_ - a_ * a_) / 9 #это  p / 3
+        R = (2 * a_ * a_ * a_ - 9 * a_ * b_ + 27 * c_) / 54 #это q / 2 
+        S = Q * Q * Q + R * R
+        if S < 0:
+            if R < 0:
+                phi = math.atan(pow(-S, 1 / 2) / R)
+                x1 = 2 * pow(-Q, 1 / 2) * math.cos(phi / 3) - (a_ / 3)
+                x2 = 2 * pow(-Q, 1 / 2) * math.cos((phi / 3) + 2 * math.pi / 3) - (a_ / 3)
+                x3 = 2 * pow(-Q, 1 / 2) * math.cos((phi / 3) + 4 * math.pi / 3) - (a_ / 3)
+            elif R == 0:
+                phi = math.pi / 2
+                x1 = 2 * pow(-Q, 1 / 2) * math.cos(phi / 3) - (a_ / 3)
+                x2 = 2 * pow(-Q, 1 / 2) * math.cos((phi / 3) + 2 * math.pi / 3) - (a_ / 3)
+                x3 = 2 * pow(-Q, 1 / 2) * math.cos((phi / 3) + 4 * math.pi / 3) - (a_ / 3)
+            else:
+                phi = math.atan(pow(-S, 1 / 2) / -R) + math.pi
+                x1 = 2 * pow(-Q, 1 / 2) * math.cos(phi / 3) - (a_ / 3)
+                x2 = 2 * pow(-Q, 1 / 2) * math.cos((phi / 3) + 2 * math.pi / 3) - (a_ / 3)
+                x3 = 2 * pow(-Q, 1 / 2) * math.cos((phi / 3) + 4 * math.pi / 3) - (a_ / 3)
             return (3, x1, x2, x3)
         elif S < 0:
             if Q > 0:
                 phi = math.acosh(abs(R) / pow(Q * Q * Q, 1 / 2)) / 3
-                x1 = -2 * sgn(R) * pow(Q, 1 / 2) * math.cosh(phi) - (a / 3)
+                x1 = -2 * sgn(R) * pow(Q, 1 / 2) * math.cosh(phi) - (a_ / 3)
                 return (1, x1)
             elif Q < 0:
                 phi = math.asinh(abs(R) / pow(abs(Q * Q * Q), 1 / 2)) / 3
-                x1 = -2 * sgn(R) * pow(abs(Q), 1 / 2) * math.sinh(phi) - (a / 3)
+                x1 = -2 * sgn(R) * pow(abs(Q), 1 / 2) * math.sinh(phi) - (a_ / 3)
                 return (1, x1)
             else:
-                x1 = -1 * pow(c - a * a * a / 27, 1 / 3) - (a / 3)
+                x1 = -1 * pow(c_ - a_ * a_ * a_ / 27, 1 / 3) - (a_ / 3)
                 return (1, x1)
         else:
-            x1 = -2 * pow(R, 1 / 3) - (a / 3)
-            x2 = pow(R, 1 / 3) - (a / 3)
+            x1 = -2 * pow(R, 1 / 3) - (a_ / 3)
+            x2 = pow(R, 1 / 3) - (a_ / 3)
             return (2, x1, x2)
 
 
-print(solve3(1, 1, 1, 1))
+print(solve3(1, -1, -2, 1))
