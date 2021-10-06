@@ -1,7 +1,7 @@
 import math
 
 
-def solve2(a, b, c, d=0):
+def solve2(a, b, c):
     D = b * b - 4 * a * c
     if a != 0 and D == 0:
         x1 = (-b + math.sqrt(D)) / (2 * a)
@@ -27,6 +27,14 @@ def sgn(x):
         return -1
     else:
         return 0
+
+def get_cube_root(x):
+    if x < 0:
+        x = abs(x)
+        cube_root = x**(1/3)*(-1)
+    else:
+        cube_root = x**(1/3)
+    return cube_root
 
 
 def solve3(a, b, c, d):
@@ -56,22 +64,25 @@ def solve3(a, b, c, d):
                 x2 = 2 * pow(-Q, 1 / 2) * math.cos((phi / 3) + 2 * math.pi / 3) - (a_ / 3)
                 x3 = 2 * pow(-Q, 1 / 2) * math.cos((phi / 3) + 4 * math.pi / 3) - (a_ / 3)
             return (3, x1, x2, x3)
-        elif S < 0:
-            if Q > 0:
-                phi = math.acosh(abs(R) / pow(Q * Q * Q, 1 / 2)) / 3
-                x1 = -2 * sgn(R) * pow(Q, 1 / 2) * math.cosh(phi) - (a_ / 3)
-                return (1, x1)
-            elif Q < 0:
-                phi = math.asinh(abs(R) / pow(abs(Q * Q * Q), 1 / 2)) / 3
-                x1 = -2 * sgn(R) * pow(abs(Q), 1 / 2) * math.sinh(phi) - (a_ / 3)
+        elif S > 0:
+            x1 = get_cube_root(-R + pow(S, 1 / 2)) + get_cube_root(-R - pow(S, 1 / 2)) - (a_ / 3)
+            return (1, x1)
+        else:
+            if Q == 0:
+                x1 = 0.0
                 return (1, x1)
             else:
-                x1 = -1 * pow(c_ - a_ * a_ * a_ / 27, 1 / 3) - (a_ / 3)
-                return (1, x1)
-        else:
-            x1 = -2 * pow(R, 1 / 3) - (a_ / 3)
-            x2 = pow(R, 1 / 3) - (a_ / 3)
-            return (2, x1, x2)
+                x1 = 2 * get_cube_root(-R) - (a_ / 3)
+                x2 = -get_cube_root(-R) - (a_ / 3)
+                return (2, x1, x2)
 
 
-print(solve3(1, -1, -2, 1))
+print(solve3(1, -1, -2, 1)) # 3 корня
+print(solve3(1, -10, -15, 4)) # 3 корня
+print(solve3(1, -1, 3, 4)) # 1 корень
+print(solve3(1, -1, 3, 4)) # 2 корня
+print(solve3(0, 1, -3, 2)) # a = 0
+print(solve3(0, 0, 0, 0)) # все 0
+print(solve3(0, 0, 0, 1)) # 1 ноль
+print(solve3(0, 0, 4, 1)) # 2 ноля
+print(solve3(2, 0, 0, 0))
