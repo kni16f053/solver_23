@@ -81,7 +81,11 @@ def solve3(a, b, c, d):
             if x3 >= min and x3 <= max:
                 medium = x3
             return (3, min, medium, max)
+<<<<<<< HEAD
         elif S > 1e-6:
+=======
+        elif S > 0:
+>>>>>>> 0846bc71372e55caed58bc9762bd7d09d5b5696a
             x1 = get_cube_root(-R + pow(S, 1 / 2)) + get_cube_root(-R - pow(S, 1 / 2)) - (a_ / 3)
             return (1, x1)
         else:
