@@ -7,8 +7,8 @@ def solve2(a, b, c):
         x1 = (-b + math.sqrt(D)) / (2 * a)
         return (1, x1)
     elif a != 0 and D > 0:
-        x1 = (-b + math.sqrt(D)) / (2 * a)
-        x2 = (-b - math.sqrt(D)) / (2 * a)
+        x1 = (-b - math.sqrt(D)) / (2 * a)
+        x2 = (-b + math.sqrt(D)) / (2 * a)
         return (2, x1, x2)
     elif a == 0 and b == 0 and c != 0:
         return ('No roots')
@@ -63,7 +63,24 @@ def solve3(a, b, c, d):
                 x1 = 2 * pow(-Q, 1 / 2) * math.cos(phi / 3) - (a_ / 3)
                 x2 = 2 * pow(-Q, 1 / 2) * math.cos((phi / 3) + 2 * math.pi / 3) - (a_ / 3)
                 x3 = 2 * pow(-Q, 1 / 2) * math.cos((phi / 3) + 4 * math.pi / 3) - (a_ / 3)
-            return (3, x1, x2, x3)
+            min = x1
+            if x2 <= min:
+                min = x2
+            if x3 <= min:
+                min = x3
+            max = x1
+            if x2 >= max:
+                max = x2
+            if x3 >= max:
+                max = x3
+            medium = x1
+            if x1 >= min and x1 <= max:
+                medium = x1
+            if x2 >= min and x2 <= max:
+                medium = x2
+            if x3 >= min and x3 <= max:
+                medium = x3
+            return (3, min, medium, max)
         elif S > 0:
             x1 = get_cube_root(-R + pow(S, 1 / 2)) + get_cube_root(-R - pow(S, 1 / 2)) - (a_ / 3)
             return (1, x1)
@@ -74,7 +91,10 @@ def solve3(a, b, c, d):
             else:
                 x1 = 2 * get_cube_root(-R) - (a_ / 3)
                 x2 = -get_cube_root(-R) - (a_ / 3)
-                return (2, x1, x2)
+                if x1 <= x2:
+                    return (2, x1, x2)
+                else:
+                    return (2, x2, x1)
 
 
 print(solve3(1, -1, -2, 1)) # 3 корня
