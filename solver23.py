@@ -38,7 +38,7 @@ def get_cube_root(x):
 
 
 def solve3(a, b, c, d):
-    if a == 0:
+    if -1E-6 < a < 1E-6:
         return solve2(b, c, d)
     else:
         a_ = b / a
